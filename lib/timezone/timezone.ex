@@ -373,7 +373,9 @@ defmodule Timex.Timezone do
       true ->
         case Tzdata.periods_for_time(name, seconds_from_zeroyear, utc_or_wall) do
           [] ->
-            {:error, {:could_not_resolve_timezone, name, seconds_from_zeroyear, utc_or_wall}}
+            # {:error, {:could_not_resolve_timezone, name, seconds_from_zeroyear, utc_or_wall}}
+            [period] = Tzdata.periods_for_time(name, seconds_from_zeroyear, :utc)
+            tzdata_to_timezone(period, name)
 
           # Resolved
           [period] ->
